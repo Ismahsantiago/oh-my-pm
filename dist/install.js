@@ -87,6 +87,34 @@ export async function initProject(projectRoot) {
     await fs.ensureDir(path.join(projectRoot, ".pm", "artifacts"));
     return { message: chalk.green("Oh My PM project initialized."), paths };
 }
+const PM_AGENTS_MARKER = "<!-- OH_MY_PM_AGENTS -->";
+async function writeOhMyPmReference(targetDir) {
+    const root = await templateRoot();
+    const written = [];
+    // Write the full reference file
+    const refSource = path.join(root, "opencode", "OH_MY_PM_AGENTS.md");
+    const refTarget = path.join(targetDir, "OH_MY_PM_AGENTS.md");
+    await fs.copyFile(refSource, refTarget);
+    written.push(refTarget);
+    // Merge with or create AGENTS.md
+    const agentsFile = path.join(targetDir, "AGENTS.md");
+    const refRelPath = path.relative(targetDir, refTarget);
+    const referenceSection = `\n\n${PM_AGENTS_MARKER}\n## Oh My PM\n\nThis project includes the **Oh My PM** agent team for Product Management.\nSee [${refRelPath}](${refRelPath}) for the full routing table.\n`;
+    if (await fs.pathExists(agentsFile)) {
+        const current = await fs.readFile(agentsFile, "utf8");
+        if (!current.includes(PM_AGENTS_MARKER)) {
+            await fs.appendFile(agentsFile, referenceSection);
+        }
+        // If already has marker, leave it (idempotent)
+    }
+    else {
+        // No existing AGENTS.md — write minimal one
+        const minimal = `# OpenCode Agent Routing\n\nThis project uses OpenCode agents for assisted development.${referenceSection}`;
+        await fs.writeFile(agentsFile, minimal, "utf8");
+    }
+    written.push(agentsFile);
+    return written;
+}
 async function installOpenCode(projectRoot) {
     const root = await templateRoot();
     const written = [];
@@ -106,10 +134,9 @@ async function installOpenCode(projectRoot) {
     }
     written.push(opencodeConfig);
     written.push(await copyPluginConfig(path.join(projectRoot, ".opencode")));
-    const agentsFile = path.join(projectRoot, "AGENTS.md");
-    await backupIfExists(agentsFile);
-    await fs.copyFile(path.join(root, "opencode", "AGENTS.md"), agentsFile);
-    written.push(agentsFile);
+    // Write OH_MY_PM_AGENTS.md and merge into AGENTS.md
+    for (const p of await writeOhMyPmReference(projectRoot))
+        written.push(p);
     return written;
 }
 async function installGlobalOpenCode() {
@@ -127,13 +154,48 @@ async function installGlobalOpenCode() {
     await writeOpenCodeConfig(opencodeConfig);
     written.push(opencodeConfig);
     written.push(await copyPluginConfig(configRoot));
+    // Write OH_MY_PM_AGENTS.md and merge into AGENTS.md (global config dir)
+    for (const p of await writeOhMyPmReference(configRoot))
+        written.push(p);
     return written;
+}
+async function installCursor(projectRoot) {
+    const root = await templateRoot();
+    const written = [];
+    for (const agent of AGENTS) {
+        const source = path.join(root, "opencode", "skills", agent, "SKILL.md");
+        const target = path.join(projectRoot, ".opencode", "skills", agent, "SKILL.md");
+        await fs.ensureDir(path.dirname(target));
+        await fs.copyFile(source, target);
+        written.push(target);
+    }
+    const opencodeConfig = path.join(projectRoot, ".opencode", "opencode.jsonc");
+    if (await fs.pathExists(opencodeConfig)) {
+        await writeOpenCodeConfig(opencodeConfig);
+    }
+    else {
+        await fs.copyFile(path.join(root, "cursor", "opencode.jsonc"), opencodeConfig);
+    }
+    written.push(opencodeConfig);
+    written.push(await copyCursorPluginConfig(path.join(projectRoot, ".opencode")));
+    for (const p of await writeOhMyPmReference(projectRoot))
+        written.push(p);
+    return written;
+}
+async function copyCursorPluginConfig(targetRoot) {
+    const source = path.join(await templateRoot(), "cursor", "oh-my-pm.json");
+    const target = path.join(targetRoot, "oh-my-pm.json");
+    await backupIfExists(target);
+    await fs.copyFile(source, target);
+    return target;
 }
 async function installSinglePlatform(projectRoot, platform) {
     const root = await templateRoot();
     switch (platform) {
         case "opencode":
             return installOpenCode(projectRoot);
+        case "cursor":
+            return installCursor(projectRoot);
         case "claude": {
             const target = path.join(projectRoot, "CLAUDE.md");
             await backupIfExists(target);
@@ -158,10 +220,12 @@ async function installSinglePlatform(projectRoot, platform) {
 }
 function selectedOptionalPlatforms(options) {
     if (options.all === true)
-        return ["claude", "openai", "generic"];
+        return ["claude", "cursor", "openai", "generic"];
     const selected = [];
     if (options.claude === true)
         selected.push("claude");
+    if (options.cursor === true)
+        selected.push("cursor");
     if (options.openai === true)
         selected.push("openai");
     if (options.generic === true)

@@ -1,5 +1,6 @@
 export type InstallOptions = {
     readonly claude?: boolean;
+    readonly cursor?: boolean;
     readonly openai?: boolean;
     readonly generic?: boolean;
     readonly all?: boolean;

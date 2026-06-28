@@ -26,7 +26,7 @@ describe("OpenCode runtime plugin", () => {
     if (hooks.config === undefined) throw new Error("config hook is missing")
     await hooks.config(config)
 
-    expect(Object.keys(config.agent ?? {})).toEqual(["jc", "hammurabi", "davinci", "ada", "suntzu"])
+    expect(Object.keys(config.agent ?? {})).toEqual(["jc", "hammurabi", "davinci", "ada", "suntzu", "jc-validator", "davinci-renderer"])
     expect(config.agent?.["jc"]?.mode).toBe("all")
     expect(config.agent?.["hammurabi"]?.mode).toBe("subagent")
     expect(config.agent?.["jc"]?.model).toBe("openai/gpt-5.4-ultra")
@@ -57,6 +57,6 @@ describe("OpenCode runtime plugin", () => {
   })
 
   it("exposes stable runtime agent names", () => {
-    expect(getRuntimeAgentNames()).toEqual(["jc", "hammurabi", "davinci", "ada", "suntzu"])
+    expect(getRuntimeAgentNames()).toEqual(["jc", "hammurabi", "davinci", "ada", "suntzu", "jc-validator", "davinci-renderer"])
   })
 })

@@ -16,16 +16,20 @@ Oh My PM is a project-level Product Management harness that installs agent instr
 
 ## Pipeline
 
-```text
-User
-  -> JC discovery
-  -> Hammurabi PRD
-  -> DaVinci UX flows
-  -> Ada TRD and DB schema
-  -> SunTzu execution DAG
-  -> JC validation and user approval
-  -> Dev-Harness implementation
+```mermaid
+flowchart LR
+  User --> JC[JC Discovery]
+  JC --> H[Hammurabi PRD]
+  H --> D[DaVinci UX Flows]
+  D --> A[Ada TRD & DB Schema]
+  A --> S[SunTzu Execution DAG]
+  S --> V[JC Validation & Approval]
+  V --> DH[Dev-Harness Implementation]
+  D -.-> DE[docs-engineer Render & Validate]
+  DE -.-> DH
 ```
+![Diagrama 1](images/architecture-0.png)
+
 
 ## Delegation model
 

@@ -1,4 +1,5 @@
 export const PM_AGENT_NAMES = ["jc", "hammurabi", "davinci", "ada", "suntzu"];
+export const PM_SUB_AGENT_NAMES = ["jc-validator", "davinci-renderer"];
 const MANIFEST_PROTOCOL = `Oh My PM protocol:
 - Oh My PM and Dev-Harness communicate only through .pm/pm_manifest.json.
 - Keep strict lane specialization and never duplicate delegated work.
@@ -26,8 +27,12 @@ const DAVINCI_PROMPT = `You are DaVinci, the Oh My PM UX flow specialist.
 
 Role:
 - Write docs/flows/*.md with journeys, screen states, edge states, and Mermaid diagrams.
+- Write docs/architecture/*.md with system context, component diagrams, and state machines.
+- Write docs/decisions/*.md documenting ADRs with decision-graph diagrams.
+- Write docs/ux/screens/*.md with wireframe mockups and screen states.
 - Connect every flow to PRD user stories and acceptance criteria.
 - Validate Mermaid syntax and document unresolved UX ambiguity as blockers.
+- After creating diagrams, run \`node scripts/render-mermaid.mjs\` to produce PNGs.
 
 ${MANIFEST_PROTOCOL}`;
 const ADA_PROMPT = `You are Ada, the Oh My PM technical design specialist.
@@ -47,6 +52,33 @@ Role:
 - Halt the pipeline with blockers when Dev-Harness cannot execute honestly.
 
 ${MANIFEST_PROTOCOL}`;
+const JC_VALIDATOR_PROMPT = `You are JC-Validator, the Oh My PM manifest validation sub-agent.
+
+Role:
+- Validate .pm/pm_manifest.json schema compliance against the lifecycle policy.
+- Cross-reference manifest entries — tasks, decisions, artifacts — for consistency.
+- Detect stale or orphaned entries that violate lifecycle rules.
+- Report validation results as actionable feedback in feedback_channel.
+- Read-only: never modify the manifest directly.
+
+Dependency:
+- Always validate after JC writes to the manifest.
+- Report to JC via feedback_channel.blockers and feedback_channel.recommendations.
+
+${MANIFEST_PROTOCOL}`;
+const DAVINCI_RENDERER_PROMPT = `You are DaVinci-Renderer, the Oh My PM Mermaid rendering sub-agent.
+
+Role:
+- Run \`node scripts/render-mermaid.mjs\` after DaVinci creates or updates Mermaid diagrams.
+- Verify that rendered PNGs match the source .md files.
+- Clean up stale PNG files that no longer correspond to any source diagram.
+- Report rendering errors and missing outputs as blockers.
+
+Dependency:
+- Always render after DaVinci writes or modifies diagram files.
+- Report rendering failures to DaVinci via feedback_channel.blockers.
+
+${MANIFEST_PROTOCOL}`;
 const WRITABLE_TOOLS = {
     read: true,
     glob: true,
@@ -54,6 +86,12 @@ const WRITABLE_TOOLS = {
     bash: true,
     write: true,
     edit: true,
+};
+const READONLY_TOOLS = {
+    read: true,
+    glob: true,
+    grep: true,
+    bash: true,
 };
 const DELEGATING_TOOLS = {
     read: true,
@@ -84,7 +122,7 @@ export const PM_AGENT_CONFIGS = {
     davinci: {
         model: "openai/gpt-4.1",
         mode: "subagent",
-        description: "UX flow specialist for journeys, screens, Mermaid diagrams, and interaction maps.",
+        description: "UX flow specialist for journeys, screens, Mermaid diagrams, architecture diagrams, decisions, and wireframes.",
         prompt: DAVINCI_PROMPT,
         tools: DELEGATING_TOOLS,
         color: "accent",
@@ -106,6 +144,22 @@ export const PM_AGENT_CONFIGS = {
         color: "info",
     },
 };
+export const PM_SUB_AGENT_CONFIGS = {
+    "jc-validator": {
+        model: "opencode/mimo-v2.5-free",
+        mode: "subagent",
+        description: "Manifest validation sub-agent: schema compliance, lifecycle cross-reference, and feedback reporting.",
+        prompt: JC_VALIDATOR_PROMPT,
+        tools: READONLY_TOOLS,
+    },
+    "davinci-renderer": {
+        model: "opencode/mimo-v2.5-free",
+        mode: "subagent",
+        description: "Mermaid rendering sub-agent: runs render-mermaid.mjs, validates PNG outputs, reports rendering errors.",
+        prompt: DAVINCI_RENDERER_PROMPT,
+        tools: { ...READONLY_TOOLS, write: true },
+    },
+};
 export function mergePMAgents(existing) {
     const merged = {};
     if (existing !== undefined) {
@@ -117,6 +171,14 @@ export function mergePMAgents(existing) {
     for (const name of PM_AGENT_NAMES) {
         const existingConfig = merged[name];
         merged[name] = existingConfig === undefined ? PM_AGENT_CONFIGS[name] : Object.assign({}, PM_AGENT_CONFIGS[name], existingConfig);
+    }
+    return merged;
+}
+export function mergePMSubAgents(existing, merged) {
+    for (const name of PM_SUB_AGENT_NAMES) {
+        const userConfig = existing !== undefined ? existing[name] : undefined;
+        const defaultConfig = PM_SUB_AGENT_CONFIGS[name];
+        merged[name] = userConfig === undefined ? defaultConfig : Object.assign({}, defaultConfig, userConfig);
     }
     return merged;
 }

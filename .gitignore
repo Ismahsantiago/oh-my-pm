@@ -4,6 +4,8 @@ node_modules/
 # Build output
 dist/
 
+.puppeteerrc.cjs
+
 # Environment files
 .env
 .env.local
@@ -40,10 +42,14 @@ local
 
 .sisyphus/
 .hive/
-.opencode/
 .claude/
 .omo/
+.slim/
+
+# OH MY PM
+.opencode/
 .pm/
+AGENTS.md
 
 # AI Memory
 .aim/

@@ -2,7 +2,7 @@ import fs from "fs-extra"
 import path from "node:path"
 import { buildInitialManifest, writeManifest, type Manifest, type ManifestTask } from "./utils/manifest.js"
 
-export const PLATFORMS = ["opencode", "claude", "openai", "generic"] as const
+export const PLATFORMS = ["opencode", "cursor", "claude", "openai", "generic"] as const
 export type Platform = (typeof PLATFORMS)[number]
 
 export type GeneratedArtifact = {
@@ -28,6 +28,8 @@ export function parsePlatform(value: string): Platform {
   switch (value) {
     case "opencode":
       return "opencode"
+    case "cursor":
+      return "cursor"
     case "claude":
       return "claude"
     case "openai":
@@ -119,13 +121,16 @@ This artifact is generated from discovery context and must be cross-referenced f
 export async function generateProductArtifacts(input: GenerationInput): Promise<readonly GeneratedArtifact[]> {
   const idea = normalizeIdea(input.conversation)
   const docsRoot = path.join(input.projectRoot, "docs")
-  const flowsRoot = path.join(docsRoot, "flows")
-  await fs.ensureDir(flowsRoot)
+  const dirs = ["flows", "architecture", "decisions", "ux/screens", "images", "features"]
+  for (const dir of dirs) {
+    await fs.ensureDir(path.join(docsRoot, dir))
+  }
   const artifacts = [
     { path: "docs/prd.md", title: "Product Requirements Document" },
     { path: "docs/trd.md", title: "Technical Requirements Document" },
     { path: "docs/db-schema.md", title: "Database Schema" },
     { path: "docs/flows/main-flow.md", title: "Main UX Flow" },
+    { path: "docs/architecture/system-context.md", title: "System Context & Architecture" },
     { path: "docs/execution-plan.md", title: "Execution Plan" },
   ] as const
   for (const artifact of artifacts) {

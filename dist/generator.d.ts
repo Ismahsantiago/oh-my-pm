@@ -1,4 +1,4 @@
-export declare const PLATFORMS: readonly ["opencode", "claude", "openai", "generic"];
+export declare const PLATFORMS: readonly ["opencode", "cursor", "claude", "openai", "generic"];
 export type Platform = (typeof PLATFORMS)[number];
 export type GeneratedArtifact = {
     readonly path: string;

@@ -22,6 +22,7 @@ export async function runCli(argv) {
     program
         .command("install")
         .description("Install the OpenCode Oh My PM plugin team into the current project.")
+        .option("--cursor", "Also install Cursor native template.")
         .option("--claude", "Also install CLAUDE.md instructions.")
         .option("--openai", "Also install OpenAI Agents SDK template.")
         .option("--generic", "Also install generic Markdown instructions.")
@@ -32,7 +33,7 @@ export async function runCli(argv) {
     });
     program
         .command("generate")
-        .argument("<type>", "Template type: opencode, claude, openai, or generic.")
+        .argument("<type>", "Template type: opencode, cursor, claude, openai, or generic.")
         .description("Generate a platform template under .pm/generated without installing it.")
         .action(async (type) => {
         printResult(await generateTemplate(process.cwd(), type));

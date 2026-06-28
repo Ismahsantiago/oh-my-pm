@@ -1,38 +1,21 @@
-# Oh My PM OpenCode Routing
+# Oh My PM — OpenCode Agent Team
 
-This project uses Oh My PM as a Product Management agent team for PRD, TRD, UX flows, database design, execution DAGs, and Dev-Harness handoff.
+This project includes the **Oh My PM** agent team for Product Management.
+For the full agent routing table, protocol, and workspace conventions, see:
 
-## Routing table
+> **[OH_MY_PM_AGENTS.md](./OH_MY_PM_AGENTS.md)**
 
-| Trigger | Agent | Output |
-| --- | --- | --- |
-| idea, discovery, scope, goals, approval | JC | Orchestration and `.pm/pm_manifest.json` |
-| PRD, requirements, product rules, user stories, acceptance criteria | Hammurabi | `docs/prd.md` |
-| UX, UI, flows, screens, Mermaid, journey | DaVinci | `docs/flows/*.md` |
-| TRD, architecture, API, database, schema | Ada | `docs/trd.md`, `docs/db-schema.md` |
-| DAG, execution plan, Dev-Harness, blockers | SunTzu | `docs/execution-plan.md`, final manifest |
+## Quick Reference
 
-## Protocol
+| Agent | Role |
+| --- | --- |
+| JC | Product orchestrator — discovery, delegation, manifest validation |
+| Hammurabi | PRD specialist — requirements, scope, acceptance criteria |
+| DaVinci | UX/UI flow specialist — journeys, diagrams, wireframes |
+| Ada | Technical design specialist — TRD, APIs, database schemas |
+| SunTzu | Execution strategist — DAG, sequencing, Dev-Harness handoff |
+| docs-engineer | Documentation pipeline — render diagrams, validate coverage |
 
-1. JC receives the product intent and runs discovery.
-2. JC delegates with complete context when a specialist lane is needed.
-3. Each specialist writes its artifact and validates it.
-4. Blockers are written to `_workspace/{agent}/feedback/latest.md` and `.pm/pm_manifest.json`.
-5. SunTzu consolidates the execution DAG.
-6. JC validates JSON, cross-references, and lifecycle status before asking for approval.
-
-## Contract rules
-
-- `.pm/pm_manifest.json` is the only contract with Dev-Harness.
-- No agent duplicates work delegated to another lane.
-- Every handoff includes file paths, prior decisions, constraints, expected artifacts, and verification commands.
-- If there is contradiction, do not invent an answer. Write an open blocker.
-- Completion requires evidence: existing artifact, passed validation, and linked references.
-
-## Workspace conventions
-
-- Durable artifacts: `_workspace/{agent}/artifacts/`
-- Working memory: `_workspace/{agent}/working/`
-- Feedback: `_workspace/{agent}/feedback/`
-- Product docs: `docs/`
-- Contract: `.pm/pm_manifest.json`
+The agent **prompts, tools, and models** are injected at runtime by the
+Oh My PM plugin (`oh-my-pm@latest`). Model presets are configured in
+`oh-my-pm.json`. See `OH_MY_PM_AGENTS.md` for the full routing table.

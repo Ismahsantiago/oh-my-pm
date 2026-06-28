@@ -1,6 +1,6 @@
 import type { Hooks, Plugin } from "@opencode-ai/plugin";
-export { PM_AGENT_CONFIGS, PM_AGENT_NAMES, mergePMAgents } from "./agents.js";
-export type { PMAgentName } from "./agents.js";
+export { PM_AGENT_CONFIGS, PM_AGENT_NAMES, PM_SUB_AGENT_CONFIGS, PM_SUB_AGENT_NAMES, mergePMAgents, mergePMSubAgents } from "./agents.js";
+export type { PMAgentName, PMSubAgentName } from "./agents.js";
 export { buildDefaultConfig, loadOhMyPmConfig, parseOhMyPmConfig, resolveActivePreset } from "./config.js";
 export type { OhMyPmConfig } from "./config.js";
 export declare const OH_MY_PM_PLUGIN_NAME = "oh-my-pm";

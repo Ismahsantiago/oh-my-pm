@@ -1,6 +1,6 @@
 {
   "name": "oh-my-pm",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "OpenCode Product Management agent team for PRD, TRD, flows, DB design, and execution DAG manifests.",
   "license": "MIT",
   "author": "Isma",
@@ -13,7 +13,12 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "docs:render": "node scripts/render-mermaid.mjs",
+    "docs:render:check": "node scripts/render-mermaid.mjs --check",
+    "docs:validate": "node scripts/validate-docs.mjs",
+    "docs:validate:fix": "node scripts/validate-docs.mjs --fix",
+    "docs:all": "node scripts/render-mermaid.mjs && node scripts/validate-docs.mjs"
   },
   "dependencies": {
     "@opencode-ai/plugin": "^1.17.11",
@@ -24,6 +29,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.15.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.20.0",
     "typescript": "^5.9.3",
