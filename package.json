@@ -2,14 +2,53 @@
   "name": "oh-my-pm",
   "version": "2.0.0",
   "description": "OpenCode Product Management agent team for PRD, TRD, flows, DB design, and execution DAG manifests.",
+  "keywords": [
+    "harness",
+    "ai",
+    "product",
+    "management",
+    "agents"
+  ],
+  "homepage": "https://github.com/Ismahsantiago/oh-my-pm#readme",
+  "bugs": {
+    "url": "https://github.com/Ismahsantiago/oh-my-pm/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ismahsantiago/oh-my-pm.git"
+  },
   "license": "MIT",
   "author": "Isma",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli.js",
+      "types": "./dist/cli.d.ts"
+    }
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "oh-my-pm": "./dist/cli.js"
+    "oh-my-pm": "dist/cli.js"
   },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "files": [
+    "dist",
+    "src/templates",
+    "docs",
+    "agent-blueprints",
+    "oh-my-pm.schema.json",
+    "pm-manifest.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
@@ -35,27 +74,7 @@
     "typescript": "^5.9.3",
     "vitest": "^3.0.0"
   },
-  "files": [
-    "dist",
-    "src/templates",
-    "docs",
-    "agent-blueprints",
-    "oh-my-pm.schema.json",
-    "pm-manifest.schema.json",
-    "README.md",
-    "LICENSE"
-  ],
   "engines": {
     "node": ">=20.0.0"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./cli": {
-      "import": "./dist/cli.js",
-      "types": "./dist/cli.d.ts"
-    }
   }
 }
