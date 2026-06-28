@@ -6,7 +6,7 @@ This project uses Oh My PM as a Product Management agent team for PRD, TRD, UX f
 
 | Trigger | Agent | Output |
 | --- | --- | --- |
-| idea, discovery, scope, goals, approval | JC | Orchestration and `.parkops/pm_manifest.json` |
+| idea, discovery, scope, goals, approval | JC | Orchestration and `.pm/pm_manifest.json` |
 | PRD, requirements, product rules, user stories, acceptance criteria | Hammurabi | `docs/prd.md` |
 | UX, UI, flows, screens, Mermaid, journey | DaVinci | `docs/flows/*.md` |
 | TRD, architecture, API, database, schema | Ada | `docs/trd.md`, `docs/db-schema.md` |
@@ -17,13 +17,13 @@ This project uses Oh My PM as a Product Management agent team for PRD, TRD, UX f
 1. JC receives the product intent and runs discovery.
 2. JC delegates with complete context when a specialist lane is needed.
 3. Each specialist writes its artifact and validates it.
-4. Blockers are written to `_workspace/{agent}/feedback/latest.md` and `.parkops/pm_manifest.json`.
+4. Blockers are written to `_workspace/{agent}/feedback/latest.md` and `.pm/pm_manifest.json`.
 5. SunTzu consolidates the execution DAG.
 6. JC validates JSON, cross-references, and lifecycle status before asking for approval.
 
 ## Contract rules
 
-- `.parkops/pm_manifest.json` is the only contract with Dev-Harness.
+- `.pm/pm_manifest.json` is the only contract with Dev-Harness.
 - No agent duplicates work delegated to another lane.
 - Every handoff includes file paths, prior decisions, constraints, expected artifacts, and verification commands.
 - If there is contradiction, do not invent an answer. Write an open blocker.
@@ -35,4 +35,4 @@ This project uses Oh My PM as a Product Management agent team for PRD, TRD, UX f
 - Working memory: `_workspace/{agent}/working/`
 - Feedback: `_workspace/{agent}/feedback/`
 - Product docs: `docs/`
-- Contract: `.parkops/pm_manifest.json`
+- Contract: `.pm/pm_manifest.json`

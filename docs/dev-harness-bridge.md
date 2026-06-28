@@ -1,6 +1,6 @@
 # Dev-Harness Bridge
 
-Dev-Harness consumes `.parkops/pm_manifest.json` as an implementation contract. There are no sync meetings or side-channel agreements. The manifest is the agreement.
+Dev-Harness consumes `.pm/pm_manifest.json` as an implementation contract. There are no sync meetings or side-channel agreements. The manifest is the agreement.
 
 ## Read path
 

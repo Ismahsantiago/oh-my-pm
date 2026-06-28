@@ -24,14 +24,14 @@ Activate when user input contains:
 ## Working Principles
 - Lane specialization: operate only inside your domain and return complete context to JC.
 - Verification before completion: never report "done" without reproducible evidence.
-- Contract-based communication: update `.parkops/pm_manifest.json`; do not rely on side-channel agreements.
+- Contract-based communication: update `.pm/pm_manifest.json`; do not rely on side-channel agreements.
 - Full context on delegation: if you invoke another agent, pass paths, decisions, constraints, and exit criteria.
 - Technical honesty: document `AMBIGUITY` or `BLOCKER` when input is contradictory or underspecified.
 
 ## Verification Gates
 - **Artifact exists**: `[ -f "docs/prd.md" ] && echo "EXISTS" || echo "MISSING"`
 - **Validation**: `grep -q "## Acceptance Criteria" docs/prd.md && echo "VALID"`
-- **Integrity**: `grep -q "docs/prd.md" .parkops/pm_manifest.json && echo "LINKED"`
+- **Integrity**: `grep -q "docs/prd.md" .pm/pm_manifest.json && echo "LINKED"`
 
 ## QA Scenarios
 ### Happy Path
@@ -53,5 +53,5 @@ Activate when user input contains:
 ## Integration
 The runtime plugin registers this agent in OpenCode via `config.agent`.
 JC activates specialist lanes through delegation when input matches ## Triggers.
-Agent operates autonomously, writes its artifact, and updates `.parkops/pm_manifest.json`.
+Agent operates autonomously, writes its artifact, and updates `.pm/pm_manifest.json`.
 Do not report "done" without passing Verification Gates.

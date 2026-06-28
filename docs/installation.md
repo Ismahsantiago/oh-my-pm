@@ -4,7 +4,7 @@
 
 - Node.js 20 or newer.
 - Bun available for `bunx oh-my-pm` usage.
-- A project directory where Oh My PM may write `.parkops/`, `.opencode/`, `AGENTS.md`, and optional platform files.
+- A project directory where Oh My PM may write `.pm/`, `.opencode/`, `AGENTS.md`, and optional platform files.
 
 ## Install through bunx
 
@@ -13,7 +13,7 @@ bunx oh-my-pm init
 bunx oh-my-pm install
 ```
 
-`init` creates `.parkops/pm_manifest.json` and copies the schema into `.parkops/schemas/pm-manifest-schema.json`.
+`init` creates `.pm/pm_manifest.json` and copies the schema into `.pm/schemas/pm-manifest-schema.json`.
 
 `install` writes the OpenCode runtime plugin configuration plus project skill files:
 
@@ -60,7 +60,7 @@ bunx oh-my-pm generate openai
 bunx oh-my-pm generate generic
 ```
 
-Generated templates are written under `.parkops/generated/{platform}`.
+Generated templates are written under `.pm/generated/{platform}`.
 
 ## Validation
 
@@ -68,7 +68,7 @@ Generated templates are written under `.parkops/generated/{platform}`.
 bunx oh-my-pm validate
 ```
 
-Validation checks the shape of `.parkops/pm_manifest.json`, lifecycle status, blueprint paths, DAG tasks, verification criteria, blockers, and decisions.
+Validation checks the shape of `.pm/pm_manifest.json`, lifecycle status, blueprint paths, DAG tasks, verification criteria, blockers, and decisions.
 
 ## OpenCode runtime plugin
 

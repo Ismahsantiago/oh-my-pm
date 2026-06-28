@@ -43,6 +43,7 @@ local
 .opencode/
 .claude/
 .omo/
+.pm/
 
 # AI Memory
 .aim/

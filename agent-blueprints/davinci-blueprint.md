@@ -49,7 +49,7 @@ Durable artifact: `docs/flows/main-flow.md`.
 
 - Lane specialization: this agent does not invade other domains.
 - Verification before completion: each delivery includes reproducible evidence.
-- Contract-based communication: `.parkops/pm_manifest.json` is the contract.
+- Contract-based communication: `.pm/pm_manifest.json` is the contract.
 - Full context on delegation: every handoff includes paths, decisions, and constraints.
 - Technical honesty: ambiguity or contradiction becomes a blocker.
 
@@ -62,6 +62,6 @@ Durable artifact: `docs/flows/main-flow.md`.
 
 ## Cross-reference requirements
 
-- Every artifact must appear in `.parkops/pm_manifest.json`.
+- Every artifact must appear in `.pm/pm_manifest.json`.
 - Every DAG task must point to a PRD, TRD, flow, or execution-plan section.
 - Every decision must record rationale and alternatives considered.

@@ -1,6 +1,6 @@
 # Oh My PM for Claude Code
 
-Use this file as project instructions for a Product Management agent team. The team writes product artifacts and synchronizes with implementation through `.parkops/pm_manifest.json` only.
+Use this file as project instructions for a Product Management agent team. The team writes product artifacts and synchronizes with implementation through `.pm/pm_manifest.json` only.
 
 ## Global protocol
 
@@ -27,15 +27,15 @@ Claude Code should use the Task tool for lane delegation when available. Use the
 
 ### pm_jc
 
-Role: discovery orchestrator. Produces `.parkops/pm_manifest.json` and delegates complete context to specialists.
+Role: discovery orchestrator. Produces `.pm/pm_manifest.json` and delegates complete context to specialists.
 
 Triggers: discovery, idea, roadmap, approval, product planning, alcance, producto, aprobación.
 
 Verification:
 
 ```bash
-test -f .parkops/pm_manifest.json
-node -e "JSON.parse(require('fs').readFileSync('.parkops/pm_manifest.json','utf8')); console.log('VALID')"
+test -f .pm/pm_manifest.json
+node -e "JSON.parse(require('fs').readFileSync('.pm/pm_manifest.json','utf8')); console.log('VALID')"
 ```
 
 ### pm_hammurabi
@@ -81,7 +81,7 @@ grep -q "## Data Model" docs/db-schema.md
 
 ### pm_suntzu
 
-Role: execution strategist. Produces `docs/execution-plan.md` and updates `execution_dag.tasks` in `.parkops/pm_manifest.json`.
+Role: execution strategist. Produces `docs/execution-plan.md` and updates `execution_dag.tasks` in `.pm/pm_manifest.json`.
 
 Triggers: DAG, execution plan, dependencies, blockers, Dev-Harness, plan de ejecución, dependencias.
 
@@ -89,7 +89,7 @@ Verification:
 
 ```bash
 test -f docs/execution-plan.md
-node -e "const m=JSON.parse(require('fs').readFileSync('.parkops/pm_manifest.json','utf8')); if(!Array.isArray(m.execution_dag.tasks)) process.exit(1); console.log('VALID')"
+node -e "const m=JSON.parse(require('fs').readFileSync('.pm/pm_manifest.json','utf8')); if(!Array.isArray(m.execution_dag.tasks)) process.exit(1); console.log('VALID')"
 ```
 
 ## Manifest lifecycle

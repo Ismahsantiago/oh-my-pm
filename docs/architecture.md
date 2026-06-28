@@ -6,7 +6,7 @@ Oh My PM is a project-level Product Management harness that installs agent instr
 
 | Component | Responsibility |
 | --- | --- |
-| CLI | Installs templates, initializes `.parkops/`, validates manifests. |
+| CLI | Installs templates, initializes `.pm/`, validates manifests. |
 | OpenCode runtime plugin | Registers five PM agents through OpenCode `config.agent`. |
 | OpenCode templates | `SKILL.md` files for project-level routing and memory. |
 | Claude template | `CLAUDE.md` instructions for Task-based delegation. |
@@ -33,7 +33,7 @@ JC delegates by lane. Each specialist receives complete context and returns an a
 
 ## Contract model
 
-`.parkops/pm_manifest.json` is the only cross-system contract. It references all blueprints and stores DAG tasks, decisions, and blockers.
+`.pm/pm_manifest.json` is the only cross-system contract. It references all blueprints and stores DAG tasks, decisions, and blockers.
 
 ## Verification model
 

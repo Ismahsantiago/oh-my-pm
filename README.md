@@ -1,6 +1,6 @@
 # Oh My PM
 
-Oh My PM installs a Product Management agent team inside a project. The team produces PRD, TRD, UX flows, database design, execution planning, and an interoperable contract named `.parkops/pm_manifest.json`.
+Oh My PM installs a Product Management agent team inside a project. The team produces PRD, TRD, UX flows, database design, execution planning, and an interoperable contract named `.pm/pm_manifest.json`.
 
 The package is designed for `bunx oh-my-pm` usage and can generate platform-specific outputs for OpenCode, Claude Code, OpenAI Agents SDK, and generic Markdown-based LLM workflows.
 
@@ -18,7 +18,7 @@ The package is designed for `bunx oh-my-pm` usage and can generate platform-spec
 
 - **Lane specialization**: every agent owns a strict domain and JC delegates with complete context.
 - **Verification before completion**: no agent reports completion without concrete evidence.
-- **Contract-based communication**: Oh My PM and Dev-Harness communicate only through `.parkops/pm_manifest.json`.
+- **Contract-based communication**: Oh My PM and Dev-Harness communicate only through `.pm/pm_manifest.json`.
 - **Full context on delegation**: every handoff includes paths, decisions, constraints, and exit criteria.
 - **Technical honesty**: ambiguity and contradiction become blockers instead of guesses.
 
@@ -26,7 +26,7 @@ The package is designed for `bunx oh-my-pm` usage and can generate platform-spec
 
 | Agent | Role | Artifacts |
 | --- | --- | --- |
-| JC | Discovery and approval orchestrator | `.parkops/pm_manifest.json`, routing, approval notes |
+| JC | Discovery and approval orchestrator | `.pm/pm_manifest.json`, routing, approval notes |
 | Hammurabi | PRD and product rules | `docs/prd.md` |
 | DaVinci | UX, UI flows, and Mermaid | `docs/flows/*.md` |
 | Ada | TRD, API, data, and schemas | `docs/trd.md`, `docs/db-schema.md` |
@@ -52,8 +52,8 @@ AGENTS.md
 .opencode/skills/suntzu/SKILL.md
 .opencode/skills/oh-my-pm/SKILL.md
 oh-my-pm.json
-.parkops/pm_manifest.json
-.parkops/schemas/pm-manifest-schema.json
+.pm/pm_manifest.json
+.pm/schemas/pm-manifest-schema.json
 ```
 
 The generated `opencode.jsonc` loads the runtime plugin:
@@ -94,6 +94,7 @@ Existing files are backed up with `.oh-my-pm.backup` before replacement or merge
 ## Optional platform outputs
 
 ```bash
+bunx oh-my-pm install --opencode
 bunx oh-my-pm install --claude
 bunx oh-my-pm install --openai
 bunx oh-my-pm install --generic
@@ -118,7 +119,7 @@ bunx oh-my-pm generate generic
 5. Ada writes TRD, API, and database design.
 6. SunTzu builds the execution DAG and updates the manifest.
 7. JC validates the contract and asks for approval.
-8. Dev-Harness consumes `.parkops/pm_manifest.json` and writes blockers back into that file.
+8. Dev-Harness consumes `.pm/pm_manifest.json` and writes blockers back into that file.
 
 ## Dev-Harness contract
 

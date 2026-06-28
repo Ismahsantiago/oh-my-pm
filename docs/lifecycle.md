@@ -1,6 +1,6 @@
 # Manifest Lifecycle
 
-Oh My PM and Dev-Harness coordinate through lifecycle status in `.parkops/pm_manifest.json`.
+Oh My PM and Dev-Harness coordinate through lifecycle status in `.pm/pm_manifest.json`.
 
 ## States
 

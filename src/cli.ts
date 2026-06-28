@@ -38,14 +38,14 @@ export async function runCli(argv: readonly string[]): Promise<void> {
   program
     .command("generate")
     .argument("<type>", "Template type: opencode, claude, openai, or generic.")
-    .description("Generate a platform template under .parkops/generated without installing it.")
+    .description("Generate a platform template under .pm/generated without installing it.")
     .action(async (type: string) => {
       printResult(await generateTemplate(process.cwd(), type))
     })
 
   program
     .command("validate")
-    .description("Validate .parkops/pm_manifest.json in the current project.")
+    .description("Validate .pm/pm_manifest.json in the current project.")
     .action(async () => {
       printResult(await validateCurrentProject(process.cwd()))
     })

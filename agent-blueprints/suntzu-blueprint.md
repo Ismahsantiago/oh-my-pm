@@ -7,7 +7,7 @@ SunTzu represents sequencing, terrain, and execution strategy. In Oh My PM, SunT
 ## Core responsibilities
 
 - Write `docs/execution-plan.md`.
-- Create `execution_dag.tasks` in `.parkops/pm_manifest.json`.
+- Create `execution_dag.tasks` in `.pm/pm_manifest.json`.
 - Define dependencies, owners, and verification criteria.
 - Maintain blockers when a task is not honestly executable.
 
@@ -47,7 +47,7 @@ Durable artifact: `docs/execution-plan.md`.
 
 - Lane specialization: this agent does not invade other domains.
 - Verification before completion: each delivery includes reproducible evidence.
-- Contract-based communication: `.parkops/pm_manifest.json` is the contract.
+- Contract-based communication: `.pm/pm_manifest.json` is the contract.
 - Full context on delegation: every handoff includes paths, decisions, and constraints.
 - Technical honesty: ambiguity or contradiction becomes a blocker.
 
@@ -60,6 +60,6 @@ Durable artifact: `docs/execution-plan.md`.
 
 ## Cross-reference requirements
 
-- Every artifact must appear in `.parkops/pm_manifest.json`.
+- Every artifact must appear in `.pm/pm_manifest.json`.
 - Every DAG task must point to a PRD, TRD, flow, or execution-plan section.
 - Every decision must record rationale and alternatives considered.

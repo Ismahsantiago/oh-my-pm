@@ -7,7 +7,7 @@ description: Configure and improve Oh My PM for the current user. Use when users
 
 You help users configure, customize, and safely improve their Oh My PM setup.
 
-Oh My PM installs a Product Management agent team (JC, Hammurabi, DaVinci, Ada, SunTzu) and coordinates with Dev-Harness through `.parkops/pm_manifest.json`.
+Oh My PM installs a Product Management agent team (JC, Hammurabi, DaVinci, Ada, SunTzu) and coordinates with Dev-Harness through `.pm/pm_manifest.json`.
 
 ## When to use
 
