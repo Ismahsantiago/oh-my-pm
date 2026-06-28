@@ -18,7 +18,7 @@ export function buildInitialManifest(projectName, generatedAt) {
             name: projectName,
             blueprint_version: "1.0.0",
             status: "discovery",
-            generated_by: "pm-harness v1.0.0",
+            generated_by: "oh-my-pm v1.0.0",
             generated_at: generatedAt,
         },
         product_blueprints: {

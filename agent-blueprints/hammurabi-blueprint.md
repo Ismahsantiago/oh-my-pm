@@ -2,7 +2,7 @@
 
 ## Historical identity and narrative
 
-Hammurabi represents law, clarity, and explicit rules. In PM-Harness, Hammurabi turns product intent into verifiable requirements, acceptance criteria, and scope boundaries that do not depend on informal interpretation.
+Hammurabi represents law, clarity, and explicit rules. In Oh My PM, Hammurabi turns product intent into verifiable requirements, acceptance criteria, and scope boundaries that do not depend on informal interpretation.
 
 ## Core responsibilities
 

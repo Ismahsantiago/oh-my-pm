@@ -24,14 +24,14 @@ full context on delegation, and technical honesty through blockers instead of gu
 
 @function_tool
 def read_pm_manifest(project_root: str) -> str:
-    """Read .parkops/pm_manifest.json for PM-Harness and Dev-Harness coordination."""
+    """Read .parkops/pm_manifest.json for Oh My PM and Dev-Harness coordination."""
     manifest_path = Path(project_root) / ".parkops" / "pm_manifest.json"
     return manifest_path.read_text(encoding="utf-8")
 
 
 @function_tool
 def write_pm_manifest(project_root: str, manifest_json: str) -> str:
-    """Write a validated PM-Harness manifest JSON payload to .parkops/pm_manifest.json."""
+    """Write a validated Oh My PM manifest JSON payload to .parkops/pm_manifest.json."""
     parsed = json.loads(manifest_json)
     manifest_path = Path(project_root) / ".parkops" / "pm_manifest.json"
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -42,7 +42,7 @@ def write_pm_manifest(project_root: str, manifest_json: str) -> str:
 
 @function_tool
 def write_pm_artifact(project_root: str, relative_path: str, content: str) -> str:
-    """Write a PM-Harness artifact such as docs/prd.md, docs/trd.md, or docs/flows/main-flow.md."""
+    """Write a Oh My PM artifact such as docs/prd.md, docs/trd.md, or docs/flows/main-flow.md."""
     target = Path(project_root) / relative_path
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(content, encoding="utf-8")
@@ -54,7 +54,7 @@ hammurabi = Agent(
     model="gpt-4.1",
     handoff_description="PRD specialist for requirements, business rules, and acceptance criteria.",
     instructions=(
-        "You are Hammurabi, the PM-Harness PRD specialist. Write docs/prd.md with problem, "
+        "You are Hammurabi, the Oh My PM PRD specialist. Write docs/prd.md with problem, "
         "audience, scope, user stories, requirements, and acceptance criteria. "
         f"{AGENT_PRINCIPLES}"
     ),
@@ -66,7 +66,7 @@ davinci = Agent(
     model="gpt-4.1",
     handoff_description="UX flow specialist for journeys, screens, and Mermaid diagrams.",
     instructions=(
-        "You are DaVinci, the PM-Harness UX flow specialist. Write docs/flows/main-flow.md "
+        "You are DaVinci, the Oh My PM UX flow specialist. Write docs/flows/main-flow.md "
         "with Mermaid diagrams, screen states, and journey notes. "
         f"{AGENT_PRINCIPLES}"
     ),
@@ -78,7 +78,7 @@ ada = Agent(
     model="gpt-4.1",
     handoff_description="Technical design specialist for TRD, API, database, and schemas.",
     instructions=(
-        "You are Ada, the PM-Harness technical design specialist. Write docs/trd.md and "
+        "You are Ada, the Oh My PM technical design specialist. Write docs/trd.md and "
         "docs/db-schema.md with architecture, APIs, data model, security, and constraints. "
         f"{AGENT_PRINCIPLES}"
     ),
@@ -90,7 +90,7 @@ suntzu = Agent(
     model="gpt-5.4-ultra",
     handoff_description="Execution strategist for DAG, dependencies, and Dev-Harness handoff.",
     instructions=(
-        "You are SunTzu, the PM-Harness execution strategist. Write docs/execution-plan.md "
+        "You are SunTzu, the Oh My PM execution strategist. Write docs/execution-plan.md "
         "and update execution_dag.tasks in the manifest. "
         f"{AGENT_PRINCIPLES}"
     ),
@@ -101,7 +101,7 @@ jc = Agent(
     name="pm_jc",
     model="gpt-5.4-ultra",
     instructions=(
-        "You are JC, the PM-Harness orchestrator. Run discovery, delegate complete context, "
+        "You are JC, the Oh My PM orchestrator. Run discovery, delegate complete context, "
         "validate all artifacts, and ask for explicit user approval before status approved. "
         f"{AGENT_PRINCIPLES}"
     ),
@@ -114,7 +114,7 @@ jc = Agent(
     ],
 )
 
-PM_HARNESS_AGENTS = {
+OH_MY_PM_AGENTS = {
     "jc": jc,
     "hammurabi": hammurabi,
     "davinci": davinci,

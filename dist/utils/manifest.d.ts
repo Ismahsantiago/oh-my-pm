@@ -40,7 +40,7 @@ export type Manifest = {
 };
 export type Blocker = {
     readonly id: string;
-    readonly raised_by: "dev-harness" | "pm-harness";
+    readonly raised_by: "dev-harness" | "oh-my-pm";
     readonly description: string;
     readonly proposed_solutions: readonly string[];
     readonly status: "open" | "resolved";

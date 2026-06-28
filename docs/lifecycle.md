@@ -1,16 +1,16 @@
 # Manifest Lifecycle
 
-PM-Harness and Dev-Harness coordinate through lifecycle status in `.parkops/pm_manifest.json`.
+Oh My PM and Dev-Harness coordinate through lifecycle status in `.parkops/pm_manifest.json`.
 
 ## States
 
 | Status | Owner | Meaning | Exit condition |
 | --- | --- | --- | --- |
-| discovery | PM-Harness | JC is gathering product intent and constraints. | Product scope is clear enough to design. |
-| designed | PM-Harness | PRD, TRD, flows, DB schema, and execution DAG are drafted and validated. | User explicitly approves the design. |
-| approved | User and PM-Harness | The manifest is accepted as the development contract. | Dev-Harness starts implementation. |
+| discovery | Oh My PM | JC is gathering product intent and constraints. | Product scope is clear enough to design. |
+| designed | Oh My PM | PRD, TRD, flows, DB schema, and execution DAG are drafted and validated. | User explicitly approves the design. |
+| approved | User and Oh My PM | The manifest is accepted as the development contract. | Dev-Harness starts implementation. |
 | in_development | Dev-Harness | Implementation is in progress against pending DAG tasks. | All tasks complete or a blocker appears. |
-| blocked | Dev-Harness or PM-Harness | A contradiction, missing dependency, or infeasible criterion halted progress. | PM-Harness resolves the blocker. |
+| blocked | Dev-Harness or Oh My PM | A contradiction, missing dependency, or infeasible criterion halted progress. | Oh My PM resolves the blocker. |
 | completed | Dev-Harness | Every DAG task is completed and verification evidence exists. | Release or archive. |
 
 ## Transition rules

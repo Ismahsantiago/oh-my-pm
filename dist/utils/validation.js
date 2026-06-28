@@ -44,7 +44,7 @@ function validateMetadata(root, issues) {
     }
     const status = stringAt(metadata, "status");
     if (status === null || !VALID_PROJECT_STATUSES.has(status)) {
-        issues.push(issue("invalid_status", "$.project_metadata.status", "Status is not part of the PM-Harness lifecycle."));
+        issues.push(issue("invalid_status", "$.project_metadata.status", "Status is not part of the Oh My PM lifecycle."));
     }
 }
 function validateBlueprints(root, issues) {

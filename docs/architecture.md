@@ -1,6 +1,6 @@
-# PM-Harness Architecture
+# Oh My PM Architecture
 
-PM-Harness is a project-level Product Management harness that installs agent instructions and a manifest contract.
+Oh My PM is a project-level Product Management harness that installs agent instructions and a manifest contract.
 
 ## Components
 
@@ -12,7 +12,7 @@ PM-Harness is a project-level Product Management harness that installs agent ins
 | Claude template | `CLAUDE.md` instructions for Task-based delegation. |
 | OpenAI template | `agents.py` with Agents SDK definitions and handoffs. |
 | Generic template | Portable Markdown instructions for any LLM. |
-| Manifest schema | Contract shape for PM-Harness and Dev-Harness. |
+| Manifest schema | Contract shape for Oh My PM and Dev-Harness. |
 
 ## Pipeline
 
@@ -47,4 +47,8 @@ Every stage has gates:
 
 ## Runtime plugin model
 
-`src/index.ts` exports the OpenCode plugin. The plugin returns a config hook that merges JC, Hammurabi, DaVinci, Ada, and SunTzu into `opencodeConfig.agent`. The CLI entry point lives in `src/cli.ts` and is exposed as the `pm-harness` binary.
+`src/index.ts` exports the OpenCode plugin. The plugin loads `oh-my-pm.json` from the project root or `~/.config/opencode/`, resolves the active preset, then returns a config hook that merges JC, Hammurabi, DaVinci, Ada, and SunTzu into `opencodeConfig.agent`. The CLI entry point lives in `src/cli.ts` and is exposed as the `oh-my-pm` binary.
+
+## Configuration parity with oh-my-opencode-slim
+
+Oh My PM follows the same installation shape: `opencode.jsonc` registers the npm plugin, `oh-my-pm.json` stores plugin-specific presets, and `skills/oh-my-pm/SKILL.md` documents safe configuration changes. The domain differs: this package specializes in Software Product Management rather than general coding orchestration.

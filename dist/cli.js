@@ -10,22 +10,23 @@ function printResult(result) {
 }
 export async function runCli(argv) {
     program
-        .name("pm-harness")
+        .name("oh-my-pm")
         .description("Install a Product Management agent team for PRD, TRD, flows, DB design, and execution DAGs.")
         .version("1.0.0");
     program
         .command("init")
-        .description("Scaffold PM-Harness state in the current project.")
+        .description("Scaffold Oh My PM state in the current project.")
         .action(async () => {
         printResult(await initProject(process.cwd()));
     });
     program
         .command("install")
-        .description("Install the OpenCode PM-Harness plugin team into the current project.")
+        .description("Install the OpenCode Oh My PM plugin team into the current project.")
         .option("--claude", "Also install CLAUDE.md instructions.")
         .option("--openai", "Also install OpenAI Agents SDK template.")
         .option("--generic", "Also install generic Markdown instructions.")
         .option("--all", "Install all platform equivalents.")
+        .option("--global", "Install Oh My PM into ~/.config/opencode like oh-my-opencode-slim.")
         .action(async (options) => {
         printResult(await installProject(process.cwd(), options));
     });

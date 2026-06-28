@@ -37,10 +37,10 @@ Dev-Harness writes:
 
 ## PM response
 
-PM-Harness resolves blockers by updating the relevant product artifacts, adding decisions, changing verification criteria, and marking the blocker resolved with a rationale.
+Oh My PM resolves blockers by updating the relevant product artifacts, adding decisions, changing verification criteria, and marking the blocker resolved with a rationale.
 
 ## Integrity rules
 
 - Dev-Harness must not invent missing product requirements.
-- PM-Harness must not mark a blocker resolved without updating the artifact that caused the conflict.
+- Oh My PM must not mark a blocker resolved without updating the artifact that caused the conflict.
 - Both systems must preserve ids so audit history remains stable.

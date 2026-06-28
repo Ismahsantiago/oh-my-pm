@@ -3,6 +3,7 @@ export type InstallOptions = {
     readonly openai?: boolean;
     readonly generic?: boolean;
     readonly all?: boolean;
+    readonly global?: boolean;
 };
 export type CommandResult = {
     readonly message: string;

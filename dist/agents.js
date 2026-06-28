@@ -1,11 +1,11 @@
 export const PM_AGENT_NAMES = ["jc", "hammurabi", "davinci", "ada", "suntzu"];
-const MANIFEST_PROTOCOL = `PM-Harness protocol:
-- PM-Harness and Dev-Harness communicate only through .parkops/pm_manifest.json.
+const MANIFEST_PROTOCOL = `Oh My PM protocol:
+- Oh My PM and Dev-Harness communicate only through .parkops/pm_manifest.json.
 - Keep strict lane specialization and never duplicate delegated work.
 - Pass complete context in handoffs: paths, prior decisions, constraints, expected artifacts, and verification commands.
 - Do not mark work complete without concrete evidence.
 - If requirements conflict or context is missing, write a blocker in feedback_channel.blockers instead of guessing.`;
-const JC_PROMPT = `You are JC, the PM-Harness Product Management orchestrator.
+const JC_PROMPT = `You are JC, the Oh My PM Product Management orchestrator.
 
 Role:
 - Run product discovery.
@@ -14,7 +14,7 @@ Role:
 - Validate .parkops/pm_manifest.json before asking for explicit user approval.
 
 ${MANIFEST_PROTOCOL}`;
-const HAMMURABI_PROMPT = `You are Hammurabi, the PM-Harness PRD specialist.
+const HAMMURABI_PROMPT = `You are Hammurabi, the Oh My PM PRD specialist.
 
 Role:
 - Write docs/prd.md with problem, users, scope, user stories, requirements, metrics, and acceptance criteria.
@@ -22,7 +22,7 @@ Role:
 - Ensure every requirement can be cross-referenced by UX flows, TRD, and execution DAG tasks.
 
 ${MANIFEST_PROTOCOL}`;
-const DAVINCI_PROMPT = `You are DaVinci, the PM-Harness UX flow specialist.
+const DAVINCI_PROMPT = `You are DaVinci, the Oh My PM UX flow specialist.
 
 Role:
 - Write docs/flows/*.md with journeys, screen states, edge states, and Mermaid diagrams.
@@ -30,7 +30,7 @@ Role:
 - Validate Mermaid syntax and document unresolved UX ambiguity as blockers.
 
 ${MANIFEST_PROTOCOL}`;
-const ADA_PROMPT = `You are Ada, the PM-Harness technical design specialist.
+const ADA_PROMPT = `You are Ada, the Oh My PM technical design specialist.
 
 Role:
 - Write docs/trd.md and docs/db-schema.md.
@@ -38,7 +38,7 @@ Role:
 - Verify that technical design supports the PRD and DaVinci UX flows.
 
 ${MANIFEST_PROTOCOL}`;
-const SUNTZU_PROMPT = `You are SunTzu, the PM-Harness execution strategist.
+const SUNTZU_PROMPT = `You are SunTzu, the Oh My PM execution strategist.
 
 Role:
 - Write docs/execution-plan.md.
@@ -68,7 +68,7 @@ export const PM_AGENT_CONFIGS = {
     jc: {
         model: "openai/gpt-5.4-ultra",
         mode: "all",
-        description: "PM-Harness orchestrator for discovery, delegation, manifest validation, and approval.",
+        description: "Oh My PM orchestrator for discovery, delegation, manifest validation, and approval.",
         prompt: JC_PROMPT,
         tools: DELEGATING_TOOLS,
         color: "primary",
@@ -119,5 +119,20 @@ export function mergePMAgents(existing) {
         merged[name] = existingConfig === undefined ? PM_AGENT_CONFIGS[name] : Object.assign({}, PM_AGENT_CONFIGS[name], existingConfig);
     }
     return merged;
+}
+export function applyModelOverrides(base, overrides) {
+    const result = {};
+    for (const [name, config] of Object.entries(base)) {
+        const override = overrides[name];
+        if (override === undefined) {
+            result[name] = config;
+            continue;
+        }
+        const next = Object.assign({}, config, { model: override.model });
+        if (override.variant !== undefined)
+            next["variant"] = override.variant;
+        result[name] = next;
+    }
+    return result;
 }
 //# sourceMappingURL=agents.js.map

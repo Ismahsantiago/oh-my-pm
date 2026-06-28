@@ -1,13 +1,14 @@
-# PM-Harness
+# Oh My PM
 
-PM-Harness installs a Product Management agent team inside a project. The team produces PRD, TRD, UX flows, database design, execution planning, and an interoperable contract named `.parkops/pm_manifest.json`.
+Oh My PM installs a Product Management agent team inside a project. The team produces PRD, TRD, UX flows, database design, execution planning, and an interoperable contract named `.parkops/pm_manifest.json`.
 
-The package is designed for `bunx pm-harness` usage and can generate platform-specific outputs for OpenCode, Claude Code, OpenAI Agents SDK, and generic Markdown-based LLM workflows.
+The package is designed for `bunx oh-my-pm` usage and can generate platform-specific outputs for OpenCode, Claude Code, OpenAI Agents SDK, and generic Markdown-based LLM workflows.
 
-## What PM-Harness provides
+## What Oh My PM provides
 
 - A project-level OpenCode runtime plugin that registers five PM agents through `config.agent`.
-- OpenCode `SKILL.md` files for agent-level routing and project memory.
+- OpenCode `SKILL.md` files for agent-level routing, project memory, and `oh-my-pm` configuration help.
+- `oh-my-pm.json` model presets, matching the same pattern used by `oh-my-opencode-slim.json`.
 - Claude Code instructions in `CLAUDE.md`.
 - OpenAI Agents SDK definitions in `agents.py`.
 - Generic Markdown instructions for any LLM.
@@ -17,7 +18,7 @@ The package is designed for `bunx pm-harness` usage and can generate platform-sp
 
 - **Lane specialization**: every agent owns a strict domain and JC delegates with complete context.
 - **Verification before completion**: no agent reports completion without concrete evidence.
-- **Contract-based communication**: PM-Harness and Dev-Harness communicate only through `.parkops/pm_manifest.json`.
+- **Contract-based communication**: Oh My PM and Dev-Harness communicate only through `.parkops/pm_manifest.json`.
 - **Full context on delegation**: every handoff includes paths, decisions, constraints, and exit criteria.
 - **Technical honesty**: ambiguity and contradiction become blockers instead of guesses.
 
@@ -34,9 +35,9 @@ The package is designed for `bunx pm-harness` usage and can generate platform-sp
 ## Quick start
 
 ```bash
-bunx pm-harness init
-bunx pm-harness install
-bunx pm-harness validate
+bunx oh-my-pm init
+bunx oh-my-pm install
+bunx oh-my-pm validate
 ```
 
 `install` writes:
@@ -49,6 +50,8 @@ AGENTS.md
 .opencode/skills/davinci/SKILL.md
 .opencode/skills/ada/SKILL.md
 .opencode/skills/suntzu/SKILL.md
+.opencode/skills/oh-my-pm/SKILL.md
+oh-my-pm.json
 .parkops/pm_manifest.json
 .parkops/schemas/pm-manifest-schema.json
 ```
@@ -57,29 +60,53 @@ The generated `opencode.jsonc` loads the runtime plugin:
 
 ```jsonc
 {
-  "plugin": ["pm-harness"],
+  "plugin": ["oh-my-pm@latest"],
   "agent": {
     "jc": { "model": "openai/gpt-5.4-ultra", "mode": "all" }
   }
 }
 ```
 
+
+## Global OpenCode install
+
+To install Oh My PM into the same global OpenCode location used by `oh-my-opencode-slim`, run:
+
+```bash
+bunx oh-my-pm install --global
+```
+
+This writes non-destructively to `~/.config/opencode/`:
+
+```text
+opencode.jsonc                  # merged with "oh-my-pm@latest"
+oh-my-pm.json                   # model presets
+skills/oh-my-pm/SKILL.md        # configuration skill
+skills/jc/SKILL.md
+skills/hammurabi/SKILL.md
+skills/davinci/SKILL.md
+skills/ada/SKILL.md
+skills/suntzu/SKILL.md
+```
+
+Existing files are backed up with `.oh-my-pm.backup` before replacement or merge.
+
 ## Optional platform outputs
 
 ```bash
-bunx pm-harness install --claude
-bunx pm-harness install --openai
-bunx pm-harness install --generic
-bunx pm-harness install --all
+bunx oh-my-pm install --claude
+bunx oh-my-pm install --openai
+bunx oh-my-pm install --generic
+bunx oh-my-pm install --all
 ```
 
 Generate templates without installing them:
 
 ```bash
-bunx pm-harness generate opencode
-bunx pm-harness generate claude
-bunx pm-harness generate openai
-bunx pm-harness generate generic
+bunx oh-my-pm generate opencode
+bunx oh-my-pm generate claude
+bunx oh-my-pm generate openai
+bunx oh-my-pm generate generic
 ```
 
 ## Operational flow
@@ -95,6 +122,6 @@ bunx pm-harness generate generic
 
 ## Dev-Harness contract
 
-The manifest is the sole source of truth between PM and implementation. If Dev-Harness cannot execute a task, it writes a blocker under `feedback_channel.blockers`. PM-Harness resolves the blocker by updating decisions, verification criteria, or DAG dependencies.
+The manifest is the sole source of truth between PM and implementation. If Dev-Harness cannot execute a task, it writes a blocker under `feedback_channel.blockers`. Oh My PM resolves the blocker by updating decisions, verification criteria, or DAG dependencies.
 
 See `docs/dev-harness-bridge.md` for details.

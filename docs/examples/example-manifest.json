@@ -4,7 +4,7 @@
     "name": "team-launch-planner",
     "blueprint_version": "1.0.0",
     "status": "designed",
-    "generated_by": "pm-harness v1.0.0",
+    "generated_by": "oh-my-pm v1.0.0",
     "generated_at": "2026-06-27T00:00:00.000Z"
   },
   "product_blueprints": {

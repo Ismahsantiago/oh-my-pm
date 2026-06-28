@@ -1,9 +1,9 @@
 {
-  // PM-Harness project-level OpenCode configuration.
+  // Oh My PM project-level OpenCode configuration.
   // OpenCode loads the runtime plugin from the published npm package.
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "pm-harness"
+    "oh-my-pm@latest"
   ],
   "agent": {
     "jc": {

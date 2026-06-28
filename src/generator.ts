@@ -110,7 +110,7 @@ function artifactContent(title: string, idea: string): string {
 
 ${idea}
 
-## PM-Harness contract
+## Oh My PM contract
 
 This artifact is generated from discovery context and must be cross-referenced from .parkops/pm_manifest.json. Any ambiguity must be moved into feedback_channel.blockers before Dev-Harness starts implementation.
 `

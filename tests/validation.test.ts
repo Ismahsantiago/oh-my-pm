@@ -3,7 +3,7 @@ import { buildInitialManifest } from "../src/utils/manifest.js"
 import { checkMermaidSyntax, validateManifestData } from "../src/utils/validation.js"
 
 describe("manifest validation", () => {
-  it("accepts the initial PM-Harness manifest when required fields are present", () => {
+  it("accepts the initial Oh My PM manifest when required fields are present", () => {
     const manifest = buildInitialManifest("example-product", "2026-06-27T00:00:00.000Z")
 
     const report = validateManifestData(manifest)

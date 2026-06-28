@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/oh-my-pm@latest/oh-my-pm.schema.json",
+  "preset": "openai",
+  "presets": {
+    "openai": {
+      "jc": { "model": "openai/gpt-5.4-ultra" },
+      "hammurabi": { "model": "openai/gpt-4.1" },
+      "davinci": { "model": "openai/gpt-4.1" },
+      "ada": { "model": "openai/gpt-4.1" },
+      "suntzu": { "model": "openai/gpt-5.4-ultra" }
+    },
+    "opencode": {
+      "jc": { "model": "opencode/big-pickle" },
+      "hammurabi": { "model": "opencode/mimo-v2.5-free" },
+      "davinci": { "model": "opencode/mimo-v2.5-free" },
+      "ada": { "model": "opencode/mimo-v2.5-free" },
+      "suntzu": { "model": "opencode/big-pickle" }
+    }
+  }
+}

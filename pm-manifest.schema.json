@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pm-harness.local/schemas/pm-manifest-schema.json",
-  "title": "PM-Harness Interoperability Manifest",
+  "$id": "https://oh-my-pm.local/schemas/pm-manifest-schema.json",
+  "title": "Oh My PM Interoperability Manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "project_metadata", "product_blueprints", "execution_dag", "feedback_channel"],
@@ -74,7 +74,7 @@
       "required": ["id", "raised_by", "description", "proposed_solutions", "status", "resolution"],
       "properties": {
         "id": { "type": "string", "pattern": "^blocker_[0-9]{2}$" },
-        "raised_by": { "enum": ["dev-harness", "pm-harness"] },
+        "raised_by": { "enum": ["dev-harness", "oh-my-pm"] },
         "description": { "type": "string", "minLength": 1 },
         "proposed_solutions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
         "status": { "enum": ["open", "resolved"] },

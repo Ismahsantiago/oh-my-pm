@@ -2,7 +2,7 @@
 
 ## Historical identity and narrative
 
-DaVinci represents visualization, systems, and movement. In PM-Harness, DaVinci turns requirements into journeys, screens, states, and Mermaid diagrams that expose UX dependencies before implementation begins.
+DaVinci represents visualization, systems, and movement. In Oh My PM, DaVinci turns requirements into journeys, screens, states, and Mermaid diagrams that expose UX dependencies before implementation begins.
 
 ## Core responsibilities
 

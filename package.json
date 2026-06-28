@@ -1,14 +1,14 @@
 {
-  "name": "pm-harness",
+  "name": "oh-my-pm",
   "version": "1.0.0",
-  "description": "Project-level Product Management agent team installer for PRD, TRD, flows, DB design, and execution DAG manifests.",
+  "description": "OpenCode Product Management agent team for PRD, TRD, flows, DB design, and execution DAG manifests.",
   "license": "MIT",
   "author": "Isma",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "pm-harness": "./dist/cli.js"
+    "oh-my-pm": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -34,7 +34,8 @@
     "src/templates",
     "docs",
     "agent-blueprints",
-    "pm-harness.schema.json",
+    "oh-my-pm.schema.json",
+    "pm-manifest.schema.json",
     "README.md",
     "LICENSE"
   ],

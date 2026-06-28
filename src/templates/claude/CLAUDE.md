@@ -1,4 +1,4 @@
-# PM-Harness for Claude Code
+# Oh My PM for Claude Code
 
 Use this file as project instructions for a Product Management agent team. The team writes product artifacts and synchronizes with implementation through `.parkops/pm_manifest.json` only.
 

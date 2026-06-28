@@ -1,5 +1,6 @@
 import chalk from "chalk"
 import fs from "fs-extra"
+import os from "node:os"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { parsePlatform, type Platform } from "./generator.js"
@@ -11,6 +12,7 @@ export type InstallOptions = {
   readonly openai?: boolean
   readonly generic?: boolean
   readonly all?: boolean
+  readonly global?: boolean
 }
 
 export type CommandResult = {
@@ -18,7 +20,15 @@ export type CommandResult = {
   readonly paths: readonly string[]
 }
 
-const AGENTS = ["jc", "hammurabi", "davinci", "ada", "suntzu"] as const
+const AGENTS = ["jc", "hammurabi", "davinci", "ada", "suntzu", "oh-my-pm"] as const
+const OPENCODE_PLUGIN_ENTRY = "oh-my-pm@latest"
+const OPENCODE_CONFIG_TEMPLATE = `{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "${OPENCODE_PLUGIN_ENTRY}"
+  ]
+}
+`
 
 async function packageRoot(): Promise<string> {
   const here = path.dirname(fileURLToPath(import.meta.url))
@@ -34,7 +44,7 @@ async function templateRoot(): Promise<string> {
 }
 
 async function copySchema(projectRoot: string): Promise<string> {
-  const source = path.join(await packageRoot(), "pm-harness.schema.json")
+  const source = path.join(await packageRoot(), "pm-manifest.schema.json")
   const target = path.join(projectRoot, MANIFEST_SCHEMA_RELATIVE_PATH)
   await fs.ensureDir(path.dirname(target))
   await fs.copyFile(source, target)
@@ -43,8 +53,44 @@ async function copySchema(projectRoot: string): Promise<string> {
 
 async function backupIfExists(target: string): Promise<void> {
   if (await fs.pathExists(target)) {
-    await fs.copyFile(target, `${target}.pm-harness.backup`)
+    await fs.copyFile(target, `${target}.oh-my-pm.backup`)
   }
+}
+
+function addPluginEntryToConfig(source: string): string {
+  if (source.includes(`"${OPENCODE_PLUGIN_ENTRY}"`) || source.includes("\"oh-my-pm\"")) return source
+  const pluginKeyIndex = source.indexOf("\"plugin\"")
+  if (pluginKeyIndex === -1) {
+    const openingBrace = source.indexOf("{")
+    if (openingBrace === -1) return OPENCODE_CONFIG_TEMPLATE
+    return `${source.slice(0, openingBrace + 1)}\n  "plugin": [\n    "${OPENCODE_PLUGIN_ENTRY}"\n  ],${source.slice(openingBrace + 1)}`
+  }
+  const arrayStart = source.indexOf("[", pluginKeyIndex)
+  if (arrayStart === -1) return source
+  return `${source.slice(0, arrayStart + 1)}\n    "${OPENCODE_PLUGIN_ENTRY}",${source.slice(arrayStart + 1)}`
+}
+
+async function writeOpenCodeConfig(target: string): Promise<void> {
+  await fs.ensureDir(path.dirname(target))
+  if (await fs.pathExists(target)) {
+    await backupIfExists(target)
+    const current = await fs.readFile(target, "utf8")
+    await fs.writeFile(target, addPluginEntryToConfig(current), "utf8")
+    return
+  }
+  await fs.writeFile(target, OPENCODE_CONFIG_TEMPLATE, "utf8")
+}
+
+async function copyPluginConfig(targetRoot: string): Promise<string> {
+  const source = path.join(await templateRoot(), "opencode", "oh-my-pm.json")
+  const target = path.join(targetRoot, "oh-my-pm.json")
+  await backupIfExists(target)
+  await fs.copyFile(source, target)
+  return target
+}
+
+function openCodeConfigRoot(): string {
+  return process.env["OH_MY_PM_OPENCODE_CONFIG_DIR"] ?? path.join(os.homedir(), ".config", "opencode")
 }
 
 export async function initProject(projectRoot: string): Promise<CommandResult> {
@@ -58,7 +104,7 @@ export async function initProject(projectRoot: string): Promise<CommandResult> {
   }
   await fs.ensureDir(path.join(projectRoot, ".parkops", "feedback"))
   await fs.ensureDir(path.join(projectRoot, ".parkops", "artifacts"))
-  return { message: chalk.green("PM-Harness project initialized."), paths }
+  return { message: chalk.green("Oh My PM project initialized."), paths }
 }
 
 async function installOpenCode(projectRoot: string): Promise<readonly string[]> {
@@ -72,13 +118,35 @@ async function installOpenCode(projectRoot: string): Promise<readonly string[]> 
     written.push(target)
   }
   const opencodeConfig = path.join(projectRoot, "opencode.jsonc")
-  await backupIfExists(opencodeConfig)
-  await fs.copyFile(path.join(root, "opencode", "opencode.jsonc"), opencodeConfig)
+  if (await fs.pathExists(opencodeConfig)) {
+    await writeOpenCodeConfig(opencodeConfig)
+  } else {
+    await fs.copyFile(path.join(root, "opencode", "opencode.jsonc"), opencodeConfig)
+  }
   written.push(opencodeConfig)
+  written.push(await copyPluginConfig(projectRoot))
   const agentsFile = path.join(projectRoot, "AGENTS.md")
   await backupIfExists(agentsFile)
   await fs.copyFile(path.join(root, "opencode", "AGENTS.md"), agentsFile)
   written.push(agentsFile)
+  return written
+}
+
+async function installGlobalOpenCode(): Promise<readonly string[]> {
+  const root = await templateRoot()
+  const configRoot = openCodeConfigRoot()
+  const written: string[] = []
+  for (const agent of AGENTS) {
+    const source = path.join(root, "opencode", "skills", agent, "SKILL.md")
+    const target = path.join(configRoot, "skills", agent, "SKILL.md")
+    await fs.ensureDir(path.dirname(target))
+    await fs.copyFile(source, target)
+    written.push(target)
+  }
+  const opencodeConfig = path.join(configRoot, "opencode.jsonc")
+  await writeOpenCodeConfig(opencodeConfig)
+  written.push(opencodeConfig)
+  written.push(await copyPluginConfig(configRoot))
   return written
 }
 
@@ -100,7 +168,7 @@ async function installSinglePlatform(projectRoot: string, platform: Platform): P
       return [target]
     }
     case "generic": {
-      const target = path.join(projectRoot, "PM_HARNESS_AGENTS.md")
+      const target = path.join(projectRoot, "OH_MY_PM_AGENTS.md")
       await backupIfExists(target)
       await fs.copyFile(path.join(root, "generic", "AGENTS.md"), target)
       return [target]
@@ -120,6 +188,11 @@ function selectedOptionalPlatforms(options: InstallOptions): readonly Platform[]
 }
 
 export async function installProject(projectRoot: string, options: InstallOptions): Promise<CommandResult> {
+  if (options.global === true) {
+    const paths: string[] = []
+    for (const installedPath of await installGlobalOpenCode()) paths.push(installedPath)
+    return { message: chalk.green("Oh My PM global OpenCode configuration installed."), paths }
+  }
   const initialized = await initProject(projectRoot)
   const paths: string[] = []
   for (const initializedPath of initialized.paths) paths.push(initializedPath)
@@ -127,7 +200,7 @@ export async function installProject(projectRoot: string, options: InstallOption
   for (const platform of selectedOptionalPlatforms(options)) {
     for (const installedPath of await installSinglePlatform(projectRoot, platform)) paths.push(installedPath)
   }
-  return { message: chalk.green("PM-Harness agent team installed."), paths }
+  return { message: chalk.green("Oh My PM agent team installed."), paths }
 }
 
 export async function generateTemplate(projectRoot: string, platformInput: string): Promise<CommandResult> {

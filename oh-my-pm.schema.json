@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unpkg.com/oh-my-pm@latest/oh-my-pm.schema.json",
+  "title": "Oh My PM Plugin Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["preset", "presets"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "preset": { "type": "string", "minLength": 1 },
+    "presets": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/preset" },
+      "minProperties": 1
+    }
+  },
+  "$defs": {
+    "preset": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/agentPreset" }
+    },
+    "agentPreset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model"],
+      "properties": {
+        "model": { "type": "string", "minLength": 1 },
+        "variant": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

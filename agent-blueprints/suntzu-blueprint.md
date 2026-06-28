@@ -2,7 +2,7 @@
 
 ## Historical identity and narrative
 
-SunTzu represents sequencing, terrain, and execution strategy. In PM-Harness, SunTzu transforms product strategy into an implementable DAG with dependencies, risks, verification criteria, and a clear Dev-Harness handoff.
+SunTzu represents sequencing, terrain, and execution strategy. In Oh My PM, SunTzu transforms product strategy into an implementable DAG with dependencies, risks, verification criteria, and a clear Dev-Harness handoff.
 
 ## Core responsibilities
 

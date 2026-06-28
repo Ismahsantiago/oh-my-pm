@@ -56,7 +56,7 @@ export type Manifest = {
 
 export type Blocker = {
   readonly id: string
-  readonly raised_by: "dev-harness" | "pm-harness"
+  readonly raised_by: "dev-harness" | "oh-my-pm"
   readonly description: string
   readonly proposed_solutions: readonly string[]
   readonly status: "open" | "resolved"
@@ -77,7 +77,7 @@ export function buildInitialManifest(projectName: string, generatedAt: string): 
       name: projectName,
       blueprint_version: "1.0.0",
       status: "discovery",
-      generated_by: "pm-harness v1.0.0",
+      generated_by: "oh-my-pm v1.0.0",
       generated_at: generatedAt,
     },
     product_blueprints: {

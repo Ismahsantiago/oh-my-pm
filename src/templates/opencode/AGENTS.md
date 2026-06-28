@@ -1,6 +1,6 @@
-# PM-Harness OpenCode Routing
+# Oh My PM OpenCode Routing
 
-This project uses PM-Harness as a Product Management agent team for PRD, TRD, UX flows, database design, execution DAGs, and Dev-Harness handoff.
+This project uses Oh My PM as a Product Management agent team for PRD, TRD, UX flows, database design, execution DAGs, and Dev-Harness handoff.
 
 ## Routing table
 
