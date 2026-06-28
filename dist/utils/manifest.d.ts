@@ -1,5 +1,5 @@
-export declare const MANIFEST_RELATIVE_PATH = ".parkops/pm_manifest.json";
-export declare const MANIFEST_SCHEMA_RELATIVE_PATH = ".parkops/schemas/pm-manifest-schema.json";
+export declare const MANIFEST_RELATIVE_PATH = ".pm/pm_manifest.json";
+export declare const MANIFEST_SCHEMA_RELATIVE_PATH = ".pm/schemas/pm-manifest-schema.json";
 export declare const MANIFEST_STATUSES: readonly ["discovery", "designed", "approved", "in_development", "blocked", "completed"];
 export declare const TASK_STATUSES: readonly ["pending", "in_progress", "blocked", "completed"];
 export type ManifestStatus = (typeof MANIFEST_STATUSES)[number];

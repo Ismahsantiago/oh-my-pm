@@ -1,6 +1,6 @@
 export const PM_AGENT_NAMES = ["jc", "hammurabi", "davinci", "ada", "suntzu"];
 const MANIFEST_PROTOCOL = `Oh My PM protocol:
-- Oh My PM and Dev-Harness communicate only through .parkops/pm_manifest.json.
+- Oh My PM and Dev-Harness communicate only through .pm/pm_manifest.json.
 - Keep strict lane specialization and never duplicate delegated work.
 - Pass complete context in handoffs: paths, prior decisions, constraints, expected artifacts, and verification commands.
 - Do not mark work complete without concrete evidence.
@@ -11,7 +11,7 @@ Role:
 - Run product discovery.
 - Decompose PM work into specialist lanes.
 - Delegate PRD to Hammurabi, UX flows to DaVinci, TRD and data design to Ada, and execution DAG to SunTzu.
-- Validate .parkops/pm_manifest.json before asking for explicit user approval.
+- Validate .pm/pm_manifest.json before asking for explicit user approval.
 
 ${MANIFEST_PROTOCOL}`;
 const HAMMURABI_PROMPT = `You are Hammurabi, the Oh My PM PRD specialist.
@@ -42,7 +42,7 @@ const SUNTZU_PROMPT = `You are SunTzu, the Oh My PM execution strategist.
 
 Role:
 - Write docs/execution-plan.md.
-- Build execution_dag.tasks inside .parkops/pm_manifest.json.
+- Build execution_dag.tasks inside .pm/pm_manifest.json.
 - Sequence tasks by dependency, attach spec references, and define executable verification criteria.
 - Halt the pipeline with blockers when Dev-Harness cannot execute honestly.
 

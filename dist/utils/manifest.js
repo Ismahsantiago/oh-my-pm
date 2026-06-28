@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "node:path";
-export const MANIFEST_RELATIVE_PATH = ".parkops/pm_manifest.json";
-export const MANIFEST_SCHEMA_RELATIVE_PATH = ".parkops/schemas/pm-manifest-schema.json";
+export const MANIFEST_RELATIVE_PATH = ".pm/pm_manifest.json";
+export const MANIFEST_SCHEMA_RELATIVE_PATH = ".pm/schemas/pm-manifest-schema.json";
 export const MANIFEST_STATUSES = [
     "discovery",
     "designed",

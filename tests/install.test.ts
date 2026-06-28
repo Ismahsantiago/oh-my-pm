@@ -38,12 +38,12 @@ describe("project installer", () => {
     if (tempProject === null) throw new Error("temp project was not created")
 
     const result = await installProject(tempProject.root, { all: true })
-    const opencodeConfig = await readText(tempProject, "opencode.jsonc")
-    const pluginConfig = await readText(tempProject, "oh-my-pm.json")
+    const opencodeConfig = await readText(tempProject, ".opencode/opencode.jsonc")
+    const pluginConfig = await readText(tempProject, ".opencode/oh-my-pm.json")
     const configSkill = await readText(tempProject, ".opencode/skills/oh-my-pm/SKILL.md")
     const jcSkill = await readText(tempProject, ".opencode/skills/jc/SKILL.md")
 
-    expect(result.paths.some((item) => item.endsWith("opencode.jsonc"))).toBe(true)
+    expect(result.paths.some((item) => item.endsWith(".opencode/opencode.jsonc"))).toBe(true)
     expect(opencodeConfig).toContain('"plugin"')
     expect(opencodeConfig).toContain('"oh-my-pm@latest"')
     expect(opencodeConfig).toContain('"agent"')
@@ -58,19 +58,19 @@ describe("project installer", () => {
     if (tempProject === null) throw new Error("temp project was not created")
     process.env["OH_MY_PM_OPENCODE_CONFIG_DIR"] = tempProject.root
     await fs.writeFile(
-      path.join(tempProject.root, "opencode.jsonc"),
+      path.join(tempProject.root, ".opencode/opencode.jsonc"),
       '{\n  "plugin": [\n    "oh-my-opencode-slim@latest"\n  ],\n  "lsp": true\n}\n',
       "utf8",
     )
 
     const result = await installProject(tempProject.root, { global: true })
-    const opencodeConfig = await readText(tempProject, "opencode.jsonc")
+    const opencodeConfig = await readText(tempProject, ".opencode/opencode.jsonc")
 
     expect(result.paths.some((item) => item.endsWith("skills/oh-my-pm/SKILL.md"))).toBe(true)
     expect(opencodeConfig).toContain('"oh-my-opencode-slim@latest"')
     expect(opencodeConfig).toContain('"oh-my-pm@latest"')
     expect(opencodeConfig).toContain('"lsp": true')
-    expect(await fs.pathExists(path.join(tempProject.root, "oh-my-pm.json"))).toBe(true)
-    expect(await fs.pathExists(path.join(tempProject.root, ".parkops"))).toBe(false)
+    expect(await fs.pathExists(path.join(tempProject.root, ".opencode/oh-my-pm.json"))).toBe(true)
+    expect(await fs.pathExists(path.join(tempProject.root, ".pm"))).toBe(false)
   })
 })

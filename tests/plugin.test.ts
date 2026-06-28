@@ -34,7 +34,7 @@ describe("OpenCode runtime plugin", () => {
 
   it("loads model presets from oh-my-pm.json", async () => {
     const root = await createRoot()
-    await fs.writeJson(path.join(root, "oh-my-pm.json"), {
+    await fs.writeJson(path.join(root, ".opencode/oh-my-pm.json"), {
       preset: "opencode",
       presets: {
         opencode: {
