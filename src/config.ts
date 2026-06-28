@@ -77,6 +77,7 @@ export function parseOhMyPmConfig(data: unknown): OhMyPmConfig {
 
 function candidateConfigPaths(directory: string): readonly string[] {
   return [
+    path.join(directory, ".opencode", OH_MY_PM_CONFIG_FILENAME),
     path.join(directory, OH_MY_PM_CONFIG_FILENAME),
     path.join(os.homedir(), ".config", "opencode", OH_MY_PM_CONFIG_FILENAME),
   ]

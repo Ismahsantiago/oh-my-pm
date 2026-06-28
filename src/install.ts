@@ -102,8 +102,8 @@ export async function initProject(projectRoot: string): Promise<CommandResult> {
   if (!(await manifestExists(projectRoot))) {
     paths.push(await writeManifest(projectRoot, buildInitialManifest(name, new Date().toISOString())))
   }
-  await fs.ensureDir(path.join(projectRoot, ".parkops", "feedback"))
-  await fs.ensureDir(path.join(projectRoot, ".parkops", "artifacts"))
+  await fs.ensureDir(path.join(projectRoot, ".pm", "feedback"))
+  await fs.ensureDir(path.join(projectRoot, ".pm", "artifacts"))
   return { message: chalk.green("Oh My PM project initialized."), paths }
 }
 
@@ -117,14 +117,14 @@ async function installOpenCode(projectRoot: string): Promise<readonly string[]> 
     await fs.copyFile(source, target)
     written.push(target)
   }
-  const opencodeConfig = path.join(projectRoot, "opencode.jsonc")
+  const opencodeConfig = path.join(projectRoot, ".opencode", "opencode.jsonc")
   if (await fs.pathExists(opencodeConfig)) {
     await writeOpenCodeConfig(opencodeConfig)
   } else {
     await fs.copyFile(path.join(root, "opencode", "opencode.jsonc"), opencodeConfig)
   }
   written.push(opencodeConfig)
-  written.push(await copyPluginConfig(projectRoot))
+  written.push(await copyPluginConfig(path.join(projectRoot, ".opencode")))
   const agentsFile = path.join(projectRoot, "AGENTS.md")
   await backupIfExists(agentsFile)
   await fs.copyFile(path.join(root, "opencode", "AGENTS.md"), agentsFile)
@@ -206,14 +206,14 @@ export async function installProject(projectRoot: string, options: InstallOption
 export async function generateTemplate(projectRoot: string, platformInput: string): Promise<CommandResult> {
   const platform = parsePlatform(platformInput)
   const source = path.join(await templateRoot(), platform)
-  const target = path.join(projectRoot, ".parkops", "generated", platform)
+  const target = path.join(projectRoot, ".pm", "generated", platform)
   await fs.remove(target)
   await fs.copy(source, target)
   return { message: chalk.green(`Generated ${platform} template.`), paths: [target] }
 }
 
 export async function validateCurrentProject(projectRoot: string): Promise<CommandResult> {
-  const manifestPath = path.join(projectRoot, ".parkops", "pm_manifest.json")
+  const manifestPath = path.join(projectRoot, ".pm", "pm_manifest.json")
   const report = await validateManifestFile(manifestPath)
   if (!report.ok) {
     const details = report.issues.map((item) => `${item.path}: ${item.message}`).join("\n")

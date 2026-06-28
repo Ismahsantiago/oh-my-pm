@@ -25,7 +25,7 @@ full context on delegation, and technical honesty through blockers instead of gu
 @function_tool
 def read_pm_manifest(project_root: str) -> str:
     """Read .pm/pm_manifest.json for Oh My PM and Dev-Harness coordination."""
-    manifest_path = Path(project_root) / ".parkops" / "pm_manifest.json"
+    manifest_path = Path(project_root) / ".pm" / "pm_manifest.json"
     return manifest_path.read_text(encoding="utf-8")
 
 
@@ -33,7 +33,7 @@ def read_pm_manifest(project_root: str) -> str:
 def write_pm_manifest(project_root: str, manifest_json: str) -> str:
     """Write a validated Oh My PM manifest JSON payload to .pm/pm_manifest.json."""
     parsed = json.loads(manifest_json)
-    manifest_path = Path(project_root) / ".parkops" / "pm_manifest.json"
+    manifest_path = Path(project_root) / ".pm" / "pm_manifest.json"
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(parsed, indent=2) + "
 ", encoding="utf-8")

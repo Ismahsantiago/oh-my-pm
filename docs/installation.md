@@ -24,8 +24,8 @@ bunx oh-my-pm install
 .opencode/skills/ada/SKILL.md
 .opencode/skills/suntzu/SKILL.md
 .opencode/skills/oh-my-pm/SKILL.md
-opencode.jsonc
-oh-my-pm.json
+.opencode/opencode.jsonc
+.opencode/oh-my-pm.json
 AGENTS.md
 ```
 
