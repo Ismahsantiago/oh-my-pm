@@ -1,6 +1,6 @@
 {
   "name": "oh-my-pm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OpenCode Product Management agent team for PRD, TRD, flows, DB design, and execution DAG manifests.",
   "license": "MIT",
   "author": "Isma",
