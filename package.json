@@ -1,0 +1,54 @@
+{
+  "name": "pm-harness",
+  "version": "1.0.0",
+  "description": "Project-level Product Management agent team installer for PRD, TRD, flows, DB design, and execution DAG manifests.",
+  "license": "MIT",
+  "author": "Isma",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pm-harness": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.17.11",
+    "@opencode-ai/sdk": "^1.17.11",
+    "chalk": "^5.4.1",
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.20.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.0.0"
+  },
+  "files": [
+    "dist",
+    "src/templates",
+    "docs",
+    "agent-blueprints",
+    "pm-harness.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli.js",
+      "types": "./dist/cli.d.ts"
+    }
+  }
+}

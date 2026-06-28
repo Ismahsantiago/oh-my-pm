@@ -1,0 +1,51 @@
+{
+  "$schema": "./schemas/pm-manifest-schema.json",
+  "project_metadata": {
+    "name": "team-launch-planner",
+    "blueprint_version": "1.0.0",
+    "status": "designed",
+    "generated_by": "pm-harness v1.0.0",
+    "generated_at": "2026-06-27T00:00:00.000Z"
+  },
+  "product_blueprints": {
+    "prd": "docs/prd.md",
+    "trd": "docs/trd.md",
+    "db_schema": "docs/db-schema.md",
+    "ui_flows": ["docs/flows/main-flow.md"],
+    "execution_plan": "docs/execution-plan.md"
+  },
+  "execution_dag": {
+    "version": "1.0.0",
+    "tasks": [
+      {
+        "id": "task_01_setup_project",
+        "depends_on": [],
+        "spec_reference": "PRD §3.1",
+        "description": "Create the application shell and persistence foundation.",
+        "status": "pending",
+        "verification_criteria": ["npm run build"],
+        "assigned_to": "dev-harness"
+      },
+      {
+        "id": "task_02_launch_plan_crud",
+        "depends_on": ["task_01_setup_project"],
+        "spec_reference": "PRD §5",
+        "description": "Implement create, read, update, and export for launch plans.",
+        "status": "pending",
+        "verification_criteria": ["npm test"],
+        "assigned_to": "dev-harness"
+      }
+    ]
+  },
+  "feedback_channel": {
+    "blockers": [],
+    "decisions": [
+      {
+        "id": "decision_01",
+        "description": "Use manifest-only PM and Dev coordination.",
+        "rationale": "The manifest gives both harnesses an auditable contract.",
+        "alternatives_considered": ["Chat handoff", "Meeting notes"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  // PM-Harness project-level OpenCode configuration.
+  // OpenCode loads the runtime plugin from the published npm package.
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "pm-harness"
+  ],
+  "agent": {
+    "jc": {
+      "model": "openai/gpt-5.4-ultra",
+      "mode": "all"
+    },
+    "hammurabi": {
+      "model": "openai/gpt-4.1",
+      "mode": "subagent"
+    },
+    "davinci": {
+      "model": "openai/gpt-4.1",
+      "mode": "subagent"
+    },
+    "ada": {
+      "model": "openai/gpt-4.1",
+      "mode": "subagent"
+    },
+    "suntzu": {
+      "model": "openai/gpt-5.4-ultra",
+      "mode": "subagent"
+    }
+  }
+}

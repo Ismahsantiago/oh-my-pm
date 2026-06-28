@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pm-harness.local/schemas/pm-manifest-schema.json",
+  "title": "PM-Harness Interoperability Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "project_metadata", "product_blueprints", "execution_dag", "feedback_channel"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "project_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "blueprint_version", "status", "generated_by", "generated_at"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "blueprint_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "status": { "enum": ["discovery", "designed", "approved", "in_development", "blocked", "completed"] },
+        "generated_by": { "type": "string", "minLength": 1 },
+        "generated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "product_blueprints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prd", "trd", "db_schema", "ui_flows", "execution_plan"],
+      "properties": {
+        "prd": { "type": "string", "minLength": 1 },
+        "trd": { "type": "string", "minLength": 1 },
+        "db_schema": { "type": "string", "minLength": 1 },
+        "ui_flows": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "execution_plan": { "type": "string", "minLength": 1 }
+      }
+    },
+    "execution_dag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "tasks"],
+      "properties": {
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "tasks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/task" }
+        }
+      }
+    },
+    "feedback_channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blockers", "decisions"],
+      "properties": {
+        "blockers": { "type": "array", "items": { "$ref": "#/$defs/blocker" } },
+        "decisions": { "type": "array", "items": { "$ref": "#/$defs/decision" } }
+      }
+    }
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "depends_on", "spec_reference", "description", "status", "verification_criteria", "assigned_to"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^task_[0-9]{2}_[a-z0-9_]+$" },
+        "depends_on": { "type": "array", "items": { "type": "string" } },
+        "spec_reference": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["pending", "in_progress", "blocked", "completed"] },
+        "verification_criteria": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+        "assigned_to": { "type": "string", "minLength": 1 }
+      }
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "raised_by", "description", "proposed_solutions", "status", "resolution"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^blocker_[0-9]{2}$" },
+        "raised_by": { "enum": ["dev-harness", "pm-harness"] },
+        "description": { "type": "string", "minLength": 1 },
+        "proposed_solutions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "status": { "enum": ["open", "resolved"] },
+        "resolution": { "type": "string" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "rationale", "alternatives_considered"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^decision_[0-9]{2}$" },
+        "description": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "alternatives_considered": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
