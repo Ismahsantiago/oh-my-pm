@@ -5,6 +5,7 @@ node_modules/
 dist/
 
 .puppeteerrc.cjs
+bun.lock
 
 # Environment files
 .env
